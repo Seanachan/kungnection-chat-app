@@ -1,0 +1,31 @@
+:root {
+  --color-background: #0f172a;      /* very dark navy background */
+  --color-foreground: #e2e8f0;      /* light slate text */
+  --color-sidebar-bg: #1e293b;       /* dark blue-gray sidebar */
+  --color-sidebar-hover: #334155;    /* hover darker blue */
+  --color-sidebar-active: #475569;   /* active dark blue */
+  --color-input-bg: #1e293b;         /* dark sidebar color for input */
+  --color-border: #334155;           /* dark border */
+  --color-button-primary: #3b82f6;   /* bright blue for send button */
+  --color-button-primary-hover: #2563eb; /* darker blue when hover */
+  --color-text-muted: #94a3b8;       /* muted blue-gray text */
+  --color-code-block-bg: #1e293b;    /* dark background for code blocks */
+  --color-code-header-bg: #334155;   /* slightly lighter code block header */
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+}
