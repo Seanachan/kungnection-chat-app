@@ -22,16 +22,11 @@ const ChatInterface = ({ activeChannel }: { activeChannel: string }) => {
   });
 
   const [newMessage, setNewMessage] = useState("");
-
   const messages = messagesByChannel[activeChannel] || [];
 
   const handleSendMessage = (e: FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
-
-    splitMessage(newMessage).forEach((part) => {
-      console.log("Part: ", part, "\n");
-    });
 
     // Check if message contains code blocks with line breaks
     const isCode =
