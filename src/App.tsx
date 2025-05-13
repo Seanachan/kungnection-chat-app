@@ -1,13 +1,9 @@
-import Sidebar from "./components/Sidebar";
-import ChatInterface from "./components/ChatInterface";
-import styles from "./App.module.css";
-
+import Home from "./page";
 function App() {
   return (
-    <div className={styles.app}>
-      <Sidebar />
-      <ChatInterface />
-    </div>
+    <>
+      <Home />
+    </>
   );
 }
 

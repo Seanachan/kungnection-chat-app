@@ -7,6 +7,7 @@ export interface Message{
     timestamp: string;
     avatar: string;
     isCode? : boolean; // meaning it's optional
+    edited? : boolean;
 }
 export interface CodeBlockProps{
     code: string;

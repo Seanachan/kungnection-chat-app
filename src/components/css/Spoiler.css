@@ -1,0 +1,14 @@
+
+.spoiler{
+  display: inline;
+  color: transparent;
+  background-image: linear-gradient(#cccccc, #cccccc);
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: 100% 100%;
+  /* transition: background-size 1000ms, color 700ms; */
+}
+.spoiler.revealed{
+  background-size: 0% 100%;
+  color: #cccccc;
+}

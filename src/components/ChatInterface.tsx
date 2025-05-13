@@ -1,22 +1,29 @@
 import { useState, FormEvent } from "react";
 import { Send } from "lucide-react";
-import CodeBlock from "./CodeBlock";
 import { Message } from "../types";
+import CodeBlock from "./CodeBlock";
 import styles from "./css/ChatInterface.module.css";
+import MarkdownRenderer from "./MarkdownRenderer";
 
-const ChatInterface = () => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 1,
-      user: "System",
-      content:
-        "Welcome to CodeChat! Try sending some code by wrapping it in triple backticks.",
-      timestamp: new Date().toISOString(),
-      avatar: "https://placehold.co/400",
-    },
-  ]);
+const ChatInterface = ({ activeChannel }: { activeChannel: string }) => {
+  const [messagesByChannel, setMessagesByChannel] = useState<
+    Record<string, Message[]>
+  >({
+    General: [
+      {
+        id: 1,
+        user: "System",
+        content:
+          "Welcome to CodeChat! Try sending some code by wrapping it in triple backticks.",
+        timestamp: new Date().toISOString(),
+        avatar: "https://placehold.co/400",
+      },
+    ],
+  });
 
   const [newMessage, setNewMessage] = useState("");
+
+  const messages = messagesByChannel[activeChannel] || [];
 
   const handleSendMessage = (e: FormEvent) => {
     e.preventDefault();
@@ -26,19 +33,25 @@ const ChatInterface = () => {
       console.log("Part: ", part, "\n");
     });
 
-    const isCode = /```[\s\S]+?```/.test(newMessage.trim());
+    // Check if message contains code blocks with line breaks
+    const isCode =
+      /^```[\s\S]*\n[\s\S]*```$/.test(newMessage.trim()) ||
+      /^[^\n]*\n```[\s\S]*\n[\s\S]*```$/.test(newMessage.trim());
 
-    setMessages([
-      ...messages,
-      {
-        id: messages.length + 1,
-        user: "You",
-        content: newMessage,
-        timestamp: new Date().toISOString(),
-        avatar: "https://placehold.co/400",
-        isCode,
-      },
-    ]);
+    setMessagesByChannel({
+      ...messagesByChannel,
+      [activeChannel]: [
+        ...(messagesByChannel[activeChannel] || []),
+        {
+          id: (messagesByChannel[activeChannel]?.length || 0) + 1,
+          user: "You",
+          content: newMessage,
+          timestamp: new Date().toISOString(),
+          avatar: "https://placehold.co/400",
+          isCode,
+        },
+      ],
+    });
     setNewMessage("");
   };
 
@@ -50,7 +63,7 @@ const ChatInterface = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2 className={styles.channelTitle}># general</h2>
+        <h2 className={styles.channelTitle}># {activeChannel}</h2>
       </div>
 
       <div className={styles.messageArea}>
@@ -70,12 +83,11 @@ const ChatInterface = () => {
               </div>
 
               {splitMessage(message.content).map((part, idx) => {
-                return part.startsWith("```") ? (
+                return /^```\n.*\n```$/s.test(part) ||
+                  /^```\w*\n[\s\S]+?\n```$/g.test(part) ? (
                   <CodeBlock key={idx} code={part} />
                 ) : (
-                  <p key={idx} className={styles.messageText}>
-                    {part}
-                  </p>
+                  <MarkdownRenderer content={part} />
                 );
               })}
             </div>
