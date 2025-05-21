@@ -2,7 +2,7 @@ import { useState, FormEvent } from "react";
 import { Send } from "lucide-react";
 import { Message } from "../types";
 import CodeBlock from "./CodeBlock";
-import styles from "./css/ChatInterface.module.css";
+import styles from "../css/ChatInterface.module.css"
 import MarkdownRenderer from "./MarkdownRenderer";
 
 const ChatInterface = ({ activeChannel }: { activeChannel: string }) => {
@@ -23,7 +23,7 @@ const ChatInterface = ({ activeChannel }: { activeChannel: string }) => {
 
   const [newMessage, setNewMessage] = useState("");
   const messages = messagesByChannel[activeChannel] || [];
-
+  
   const handleSendMessage = (e: FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim()) return;

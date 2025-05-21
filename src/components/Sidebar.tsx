@@ -1,15 +1,15 @@
 import { useState } from "react";
-import styles from "./css/Sidebar.module.css";
+import styles from "../css/Sidebar.module.css";
 import TextChannels from "./TextChannels";
 import VoiceChannel from "./VoiceChannels";
 
 interface SidebarProps {
+  activeChannel: string;
   setActiveChannel: (channelId: string) => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ setActiveChannel }) => {
   const [activeChannel, setActiveChannelLocal] = useState("General");
-
 
   const handleChannelChange = (channelId: string) => {
     setActiveChannelLocal(channelId);
@@ -18,9 +18,9 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveChannel }) => {
 
   return (
     <aside className={styles.sidebar}>
-      <TextChannels 
-        activeChannel={activeChannel} 
-        setActiveChannel={handleChannelChange} 
+      <TextChannels
+        activeChannel={activeChannel}
+        setActiveChannel={handleChannelChange}
       />
       <VoiceChannel
         activeChannel={activeChannel}

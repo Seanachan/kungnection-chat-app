@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Play, Clipboard, Check } from "lucide-react";
 import { CodeBlockProps } from "../types";
-import styles from "./css/CodeBlock.module.css";
+import styles from "../css/CodeBlock.module.css";
 
 const CodeBlock = ({ code }: CodeBlockProps) => {
   const [copied, setCopied] = useState<boolean>(false);

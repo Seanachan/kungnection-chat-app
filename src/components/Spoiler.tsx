@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./css/Spoiler.css";
+import "../css/Spoiler.css";
 type SpoilerSpanProps = {
   children: string;
 };

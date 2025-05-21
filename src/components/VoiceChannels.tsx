@@ -1,5 +1,4 @@
-import styles from "./css/Sidebar.module.css";
-// import {socket, sendSignal} from "../webrtc/signaling"
+import styles from "../css/Sidebar.module.css";
 import { Mic } from "lucide-react";
 
 interface Channel {

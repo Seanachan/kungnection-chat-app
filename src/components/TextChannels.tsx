@@ -1,4 +1,4 @@
-import styles from "./css/Sidebar.module.css";
+import styles from "../css/Sidebar.module.css";
 import { Hash, Cat, Code } from "lucide-react";
 
 interface Channel {
