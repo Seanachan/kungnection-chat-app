@@ -1,7 +1,7 @@
 import Sidebar from "./components/Sidebar";
 import ChatInterface from "./components/ChatInterface";
 import styles from "./css/App.module.css";
-import LoginPage from "./components/login/LoginPage";
+// import LoginPage from "./components/login/LoginPage";
 import { useState } from "react";
 export default function Home() {
   const [activeChannel, setActiveChannel] = useState("General");
