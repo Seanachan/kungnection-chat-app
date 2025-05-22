@@ -50,6 +50,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
       t = t.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, "<em>$1</em>");
       t = t.replace(/(?<!_)_([^_]+)_(?!_)/g, "<u>$1</u>");
       t = t.replace(/~~([^~]+)~~/g, "<del>$1</del>");
+      t = t.replace(/\n/g, "<br/>");
 
       // Unescape
       const UNESCAPE_MAP: [string, string][] = [
@@ -70,6 +71,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
       UNESCAPE_MAP.forEach(([token, char]) => {
         t = t.replace(new RegExp(token, "g"), char);
       });
+
 
       return <span dangerouslySetInnerHTML={{ __html: t }} />;
     });

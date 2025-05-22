@@ -1,15 +1,15 @@
 import Sidebar from "./components/Sidebar";
 import ChatInterface from "./components/ChatInterface";
 import styles from "./css/App.module.css";
-// import LoginPage from "./components/login/LoginPage";
+import LoginPage from "./components/login/LoginPage";
 import { useState } from "react";
 export default function Home() {
   const [activeChannel, setActiveChannel] = useState("General");
-  // const [activepage, setActivePage] = useState("Login");
+  const [token, setToken] = useState("");
   return (
     <>
-      {/* {activepage == "Login" ? (
-        <LoginPage />
+      {token === "" ? (
+        <LoginPage setToken={setToken} />
       ) : (
         <div className={styles.app}>
           <Sidebar
@@ -18,17 +18,7 @@ export default function Home() {
           />
           <ChatInterface activeChannel={activeChannel} />
         </div>
-      )} */}
-
-        {/* <LoginPage /> */}
-
-        <div className={styles.app}>
-          <Sidebar
-            activeChannel={activeChannel}
-            setActiveChannel={setActiveChannel}
-          />
-          <ChatInterface activeChannel={activeChannel} />
-        </div>
+      )}
     </>
   );
 }

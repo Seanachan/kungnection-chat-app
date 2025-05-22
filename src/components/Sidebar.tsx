@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "../css/Sidebar.module.css";
 import TextChannels from "./TextChannels";
 import VoiceChannel from "./VoiceChannels";
+import PersonalChannel from "./PersonalChannels";
 
 interface SidebarProps {
   activeChannel: string;
@@ -18,6 +19,10 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveChannel }) => {
 
   return (
     <aside className={styles.sidebar}>
+      <PersonalChannel
+        activeChannel={activeChannel}
+        setActiveChannel={handleChannelChange}
+      />
       <TextChannels
         activeChannel={activeChannel}
         setActiveChannel={handleChannelChange}

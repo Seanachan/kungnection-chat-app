@@ -1,6 +1,6 @@
 import styles from "../css/Sidebar.module.css";
 import React, { useState } from "react";
-import { Mic, ChevronDown, ChevronRight } from "lucide-react";
+import { UserRound, ChevronDown, ChevronRight } from "lucide-react";
 
 interface Channel {
   id: string;
@@ -8,14 +8,14 @@ interface Channel {
   icon: React.ReactNode;
 }
 
-interface VoiceChannelProps {
+interface personalChannelProps {
   activeChannel?: string;
   setActiveChannel: (id: string) => void;
 }
 
-export const voiceChannels: Channel[] = [
-  { id: "voice-general", name: "Voice General", icon: <Mic size={20} /> },
-  { id: "voice-coding", name: "Voice Coding", icon: <Mic size={20} /> },
+export const personalChannels: Channel[] = [
+  { id: "voice-general", name: "Tom", icon: <UserRound size={20} /> },
+  { id: "voice-coding", name: "JKai", icon: <UserRound size={20} /> },
 ];
 /**
  * Component for displaying voice channels in the sidebar
@@ -24,7 +24,7 @@ export const voiceChannels: Channel[] = [
  * Each channel has a name and an icon
  * Users can click on a channel to set it as active
  */
-const VoiceChannel: React.FC<VoiceChannelProps> = ({
+const personalChannel: React.FC<personalChannelProps> = ({
   activeChannel,
   setActiveChannel,
 }) => {
@@ -36,7 +36,7 @@ const VoiceChannel: React.FC<VoiceChannelProps> = ({
         onClick={() => setIsCollapsed(!isCollapsed)}
         style={{ cursor: "pointer" }}
       >
-        <h2 className={styles.channelHeader}>VOICE CHANNELS</h2>
+        <h2 className={styles.channelHeader}>PERSONAL CHANNELS</h2>
         {isCollapsed ? (
           <ChevronRight size={16} className={styles.channelHeaderIcon} />
         ) : (
@@ -45,7 +45,7 @@ const VoiceChannel: React.FC<VoiceChannelProps> = ({
       </div>
       {!isCollapsed && (
         <ul className={styles.channelList}>
-          {voiceChannels.map((channel) => (
+          {personalChannels.map((channel) => (
             <li key={channel.id}>
               <button
                 className={`${styles.channelButton} ${
@@ -64,4 +64,4 @@ const VoiceChannel: React.FC<VoiceChannelProps> = ({
   );
 };
 
-export default VoiceChannel;
+export default personalChannel;

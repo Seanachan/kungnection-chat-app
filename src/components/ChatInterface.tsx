@@ -1,9 +1,13 @@
 import { useState, FormEvent } from "react";
-import { Send } from "lucide-react";
+import { Plus, Send, UserPlus } from "lucide-react";
 import { Message } from "../types";
 import CodeBlock from "./CodeBlock";
-import styles from "../css/ChatInterface.module.css"
+import styles from "../css/ChatInterface.module.css";
 import MarkdownRenderer from "./MarkdownRenderer";
+import Modal from "./Modal";
+import JoinChannelForm from "./JoinChannelForm";
+import CreateChannelForm from "./CreateChannelForm";
+// import voiceChannels from "./VoiceChannels";
 
 const ChatInterface = ({ activeChannel }: { activeChannel: string }) => {
   const [messagesByChannel, setMessagesByChannel] = useState<
@@ -20,10 +24,11 @@ const ChatInterface = ({ activeChannel }: { activeChannel: string }) => {
       },
     ],
   });
-
   const [newMessage, setNewMessage] = useState("");
   const messages = messagesByChannel[activeChannel] || [];
-  
+  const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
   const handleSendMessage = (e: FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
@@ -55,10 +60,56 @@ const ChatInterface = ({ activeChannel }: { activeChannel: string }) => {
     return parts.filter((part) => part.length > 0);
   };
 
+  const handleCreateChannel = (code: string) => {
+    console.log(code)
+  };
+  const handleJoinChannel = (code: string) => {
+    // In a real app, this would fetch channel details from the backend
+    // For demo purposes, we'll create a new channel based on the code
+
+    // Check if it's a voice channel code (starts with "voice-")
+    if (code.startsWith("voice-")) {
+      // const channelName = code.replace("voice-", "");
+      // const newChannel = {
+      //   id: code,
+      //   name: channelName,
+      //   icon: <Mic size={20} />,
+      // };
+    } else if (code.startsWith("text-")) {
+      // const channelName = code.replace("voice-", "");
+      // const newChannel = {
+      //   id: code,
+      //   name: channelName,
+      //   icon: <Hash size={20} />,
+      // };
+    }
+
+    // Close the modal
+    setIsJoinModalOpen(false);
+  };
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2 className={styles.channelTitle}># {activeChannel}</h2>
+        <div className={styles.channelTitleContainer}>
+          <h2 className={styles.channelTitle}># {activeChannel}</h2>
+          <div>
+            <button
+              className={styles.addFriendButton}
+              title="Join Channel"
+              onClick={() => setIsJoinModalOpen(true)}
+            >
+              <UserPlus size={20} />
+            </button>
+
+            <button
+              className={styles.addFriendButton}
+              title="Create Channel"
+              onClick={() => setIsCreateModalOpen(true)}
+            >
+              <Plus size={20} />
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className={styles.messageArea}>
@@ -109,6 +160,30 @@ const ChatInterface = ({ activeChannel }: { activeChannel: string }) => {
           </button>
         </form>
       </div>
+
+      {/* Join Channel Modal */}
+      <Modal
+        isOpen={isJoinModalOpen}
+        onClose={() => setIsJoinModalOpen(false)}
+        title="Join a Channel"
+      >
+        <JoinChannelForm
+          onJoin={handleJoinChannel}
+          onCancel={() => setIsJoinModalOpen(false)}
+        />
+      </Modal>
+
+      {/* Create Channel Modal */}
+      <Modal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        title="Create a Channel"
+      >
+        <CreateChannelForm
+          onCreate={handleCreateChannel}
+          onCancel={() => setIsCreateModalOpen(false)}
+        />
+      </Modal>
     </div>
   );
 };

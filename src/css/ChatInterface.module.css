@@ -35,6 +35,9 @@
 
 .messageContent {
   flex: 1;
+  max-width: 100%;
+  overflow-x:hidden ;
+  word-break: break-word;
 }
 
 .messageHeader {
@@ -55,6 +58,10 @@
 .messageText {
   color: var(--color-foreground);
   margin-top: 4px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  overflow-x: hidden;
 }
 
 .inputArea {
@@ -93,4 +100,30 @@
 
 .sendButton:hover {
   background-color: var(--color-button-primary-hover);
+}
+
+
+.channelTitleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.iconGroup{
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.addFriendButton {
+  background: none;
+  border: none;
+  padding: 4px;
+  display:flexbox;
+  align-items: center;
+  cursor: pointer;
+  color: var(--color-text-muted);
+}
+
+.addFriendButton:hover {
+  color: var(--color-primary);
 }

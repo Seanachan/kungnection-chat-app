@@ -1,5 +1,6 @@
 import styles from "../css/Sidebar.module.css";
-import { Hash, Cat, Code } from "lucide-react";
+import React, { useState } from "react";
+import { Hash, Cat, Code, ChevronDown, ChevronRight } from "lucide-react";
 
 interface Channel {
   id: string;
@@ -28,29 +29,43 @@ const TextChannels: React.FC<TextChannelsProps> = ({
   activeChannel,
   setActiveChannel,
 }) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
   return (
     <div className={styles.channelSection}>
       {/* Header for the text channels section */}
-      <h2 className={styles.channelHeader}>TEXT CHANNELS</h2>
-      <ul className={styles.channelList}>
-        {/* Map through available channels and render each as a list item */}
-        {textChannels.map((channel) => (
-          <li key={channel.id}>
-            <button
-              // Apply active style when this channel is selected
-              className={`${styles.channelButton} ${
-                activeChannel === channel.id ? styles.active : ""
-              }`}
-              onClick={() => setActiveChannel(channel.id)}
-            >
-              {/* Channel icon */}
-              <span className={styles.channelIcon}>{channel.icon}</span>
-              {/* Channel name */}
-              <span>{channel.name}</span>
-            </button>
-          </li>
-        ))}
-      </ul>
+      <div
+        className={styles.channelHeaderContainer}
+        onClick={() => setIsCollapsed(!isCollapsed)}
+        style={{ cursor: "pointer" }}
+      >
+        <h2 className={styles.channelHeader}>TEXT CHANNELS</h2>
+        {isCollapsed ? (
+          <ChevronRight size={16} className={styles.channelHeaderIcon} />
+        ) : (
+          <ChevronDown size={16} className={styles.channelHeaderIcon} />
+        )}
+      </div>
+      {!isCollapsed && (
+        <ul className={styles.channelList}>
+          {/* Map through available channels and render each as a list item */}
+          {textChannels.map((channel) => (
+            <li key={channel.id}>
+              <button
+                // Apply active style when this channel is selected
+                className={`${styles.channelButton} ${
+                  activeChannel === channel.id ? styles.active : ""
+                }`}
+                onClick={() => setActiveChannel(channel.id)}
+              >
+                {/* Channel icon */}
+                <span className={styles.channelIcon}>{channel.icon}</span>
+                {/* Channel name */}
+                <span>{channel.name}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
