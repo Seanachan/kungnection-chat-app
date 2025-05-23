@@ -6,11 +6,20 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 public class Judge0Service {
-  private final WebClient webClient = WebClient.builder()
-      .baseUrl("https://judge0-ce.p.rapidapi.com")
-      .defaultHeader("X-RapidAPI-Key", "ac9b2d54b8msh32e1df6b192d7bcp160602jsn11506a51d22c")
-      .defaultHeader("X-RapidAPI-Host", "judge0-ce.p.rapidapi.com")
-      .build();
+  private final WebClient webClient;
+  
+  public Judge0Service() {
+    String apiKey = System.getenv("X_RAPIDAPI_KEY");
+    if (apiKey == null || apiKey.isEmpty()) {
+      throw new IllegalStateException("X_RAPIDAPI_KEY environment variable is not set");
+    }
+    
+    this.webClient = WebClient.builder()
+        .baseUrl("https://judge0-ce.p.rapidapi.com")
+        .defaultHeader("X-RapidAPI-Key", apiKey)
+        .defaultHeader("X-RapidAPI-Host", "judge0-ce.p.rapidapi.com")
+        .build();
+  }
 
   public String submitCode(String code, int languageId) {
     Map<String, Object> payload = Map.of(
