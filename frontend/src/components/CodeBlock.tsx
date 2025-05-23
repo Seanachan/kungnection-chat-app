@@ -12,6 +12,7 @@ const CodeBlock = ({ code }: CodeBlockProps) => {
   const codeMatch = code.match(/```(\w+)?\n([\s\S]+?)\n```/);
   const language = codeMatch?.[1] || "javascript";
   const codeContent = codeMatch?.[2] || code;
+  const judge0ApiSubmitAddress = "http://localhost:8080/api/judge0/submit";
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(codeContent);
@@ -20,37 +21,42 @@ const CodeBlock = ({ code }: CodeBlockProps) => {
   };
 
   const runCode = async () => {
-    /* TODO: send to run code's server*/ 
     // 1. Send the code to a secure backend
     // 2. Execute it in a sandboxed environment
     // 3. Return the result
 
     setIsRunning(true);
-
     try {
-      if (language === "javascript") {
-        setTimeout(() => {
-          try {
-            // This is just for demo purposes
-            const result = new Function(`
-              try {
-                return String(eval(\`${codeContent}\`));
-              } catch (e) {
-                return "Error: " + e.message;
-              }
-            `)();
-            setOutput(result);
-          } catch (e) {
-            setOutput(`Error: ${e instanceof Error ? e.message : String(e)}`);
-          }
-          setIsRunning(false);
-        }, 500);
-      } else {
-        setOutput(`Running ${language} code is not supported in this demo`);
-        setIsRunning(false);
+      console.log(language);
+      const response = await fetch(judge0ApiSubmitAddress, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sourceCode: codeContent,
+          languageId: language === "python" ? 71 : 63, //63 for JS, 71 python
+        }),
+      });
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
       }
+
+      const result = await response.json();
+      setOutput(
+        result.stdout ||
+          result.stderr ||
+          result.compile_output ||
+          result.message ||
+          "No output"
+      );
     } catch (e) {
-      setOutput(`Error: ${e instanceof Error ? e.message : String(e)}`);
+      const message = e instanceof Error ? e.message : String(e);
+      console.error("Run code error:", message);
+      setOutput(message);
+
+      // setOutput(`Error: ${e instanceof Error ? e.message : String(e)}`);
+    } finally {
       setIsRunning(false);
     }
   };
