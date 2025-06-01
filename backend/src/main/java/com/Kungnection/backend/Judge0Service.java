@@ -8,6 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class Judge0Service {
   private final WebClient webClient;
   
+<<<<<<< HEAD
   public Judge0Service() {
     String apiKey = System.getenv("X_RAPIDAPI_KEY");
     if (apiKey == null || apiKey.isEmpty()) {
@@ -17,6 +18,12 @@ public class Judge0Service {
     this.webClient = WebClient.builder()
         .baseUrl("https://judge0-ce.p.rapidapi.com")
         .defaultHeader("X-RapidAPI-Key", apiKey)
+=======
+  public Judge0Service(org.springframework.core.env.Environment env) {
+    this.webClient = WebClient.builder()
+        .baseUrl("https://judge0-ce.p.rapidapi.com")
+        .defaultHeader("X-RapidAPI-Key", env.getProperty("RAPIDAPI_KEY"))
+>>>>>>> 5149e6a (feat: add share modal with social media buttons and bottom-aligned settings UI)
         .defaultHeader("X-RapidAPI-Host", "judge0-ce.p.rapidapi.com")
         .build();
   }
