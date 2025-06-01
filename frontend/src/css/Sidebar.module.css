@@ -6,6 +6,34 @@
   height: 100vh;
 }
 
+.sidebarBottom {
+  margin-top: auto;
+  padding: 16px;
+  border-top: 2px solid var(--color-border);
+  display: flex;
+  justify-content: left;
+}
+
+.settingsButton {
+  all: unset;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 32px;
+  width: 100%;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.settingsButton:hover {
+  background-color: var(--color-sidebar-hover);
+  color: var(--color-foreground);
+}
+
+.settingsText {
+  margin-left: 8px;
+  font-size: 14px;
+}
 .header {
   padding: 16px;
   border-bottom: 1px solid var(--color-border);

@@ -28,7 +28,6 @@ const ChatInterface = ({ activeChannel }: { activeChannel: string }) => {
   const messages = messagesByChannel[activeChannel] || [];
   const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-
   const handleSendMessage = (e: FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
@@ -61,7 +60,7 @@ const ChatInterface = ({ activeChannel }: { activeChannel: string }) => {
   };
 
   const handleCreateChannel = (code: string) => {
-    console.log(code)
+    console.log(code);
   };
   const handleJoinChannel = (code: string) => {
     // In a real app, this would fetch channel details from the backend

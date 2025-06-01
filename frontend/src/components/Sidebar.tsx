@@ -3,6 +3,8 @@ import styles from "../css/Sidebar.module.css";
 import TextChannels from "./TextChannels";
 import VoiceChannel from "./VoiceChannels";
 import PersonalChannel from "./PersonalChannels";
+import Settings from "./Settings";
+// import Modal from "./Modal";
 
 interface SidebarProps {
   activeChannel: string;
@@ -18,20 +20,23 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveChannel }) => {
   };
 
   return (
-    <aside className={styles.sidebar}>
-      <PersonalChannel
-        activeChannel={activeChannel}
-        setActiveChannel={handleChannelChange}
-      />
-      <TextChannels
-        activeChannel={activeChannel}
-        setActiveChannel={handleChannelChange}
-      />
-      <VoiceChannel
-        activeChannel={activeChannel}
-        setActiveChannel={handleChannelChange}
-      />
-    </aside>
+    <>
+      <aside className={styles.sidebar}>
+        <PersonalChannel
+          activeChannel={activeChannel}
+          setActiveChannel={handleChannelChange}
+        />
+        <TextChannels
+          activeChannel={activeChannel}
+          setActiveChannel={handleChannelChange}
+        />
+        <VoiceChannel
+          activeChannel={activeChannel}
+          setActiveChannel={handleChannelChange}
+        />
+          <Settings activeChannel={activeChannel} />
+      </aside>
+    </>
   );
 };
 
