@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Share } from "lucide-react";
+import { Settings as SettingsIcon } from "lucide-react";
 import Modal from "./Modal";
 import SettingsForm from "./SettingsForm";
 import styles from "../css/Sidebar.module.css";
@@ -12,11 +12,11 @@ const Settings: React.FC<SettingsProps> = ({ activeChannel }) => {
     <>
       <div className={styles.sidebarBottom}>
         <button
-          className={styles.settingsButton}
           onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+          className={styles.ShareButton}
         >
-          <Share size={20} />
-          <span className={styles.settingsText}>Share</span>
+          <SettingsIcon size={20} />
+          <span className={styles.ShareText}>Settings</span>
         </button>
       </div>
 
@@ -24,7 +24,7 @@ const Settings: React.FC<SettingsProps> = ({ activeChannel }) => {
       <Modal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
-        title="Share"
+        title="Settings"
       >
         <SettingsForm activeChannel={activeChannel} />
       </Modal>

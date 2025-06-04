@@ -1,4 +1,4 @@
-package com.Kungnection.backend;
+package org.kungnection;
 
 public class CodeSubmissionRequest {
   private String sourceCode;

@@ -1,4 +1,4 @@
-package com.Kungnection.backend;
+package org.kungnection;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;

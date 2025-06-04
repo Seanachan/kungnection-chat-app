@@ -28,7 +28,7 @@ export default function CreateChannelForm({
     // Validate channel name (alphanumeric and hyphens only)
     if (!/^[a-z0-9-]+$/.test(channelName)) {
       setError(
-        "Channel name can only contain lowercase letters, numbers, and hyphens"
+        "Channel name can only contain lowercase letters, numbers, and hyphens",
       );
       return;
     }
@@ -71,18 +71,6 @@ export default function CreateChannelForm({
       </div>
 
       <div className={styles.buttonRow}>
-        {/* <div className={styles.voiceCheckRow}>
-          <input
-            type="checkbox"
-            id="is-voice"
-            checked={isVoice}
-            onChange={(e) => setIsVoice(e.target.checked)}
-            disabled={isLoading}
-          />
-          <label htmlFor="is-voice" >
-            Voice Channel
-          </label>
-        </div> */}
         <button
           type="button"
           onClick={onCancel}

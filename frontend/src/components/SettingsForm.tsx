@@ -1,95 +1,48 @@
-import { useState } from "react";
 import { Clipboard } from "lucide-react";
 import styles from "../css/Share.module.css";
 interface settingsProp {
   activeChannel: string;
 }
-const SettingsForm: React.FC<settingsProp> = ({ activeChannel }) => {
-  const shareChannel = (platform: string) => {
-    const generateChannelCode = (channelId: string) => {
-      // In a real app, this would generate a unique invite code from the backend
-      // For demo purposes, we'll create a simple code
-      //TO-DO: do real generated hash
-      return `${channelId}-invite-${Math.random().toString(36).substr(2, 6)}`;
-    };
+const SettingsChannel = ({}) =>{
 
-    const channelCode = generateChannelCode(activeChannel);
-    const shareText = `Join me in the ${activeChannel} channel on CodeChat! Use code: ${channelCode}`;
-    const shareUrl = `https://kungnection.app/join/${channelCode}`;
+}
+const SettingsForm: React.FC<settingsProp> = ({}) => {
 
-    switch (platform) {
-      case "twitter":
-        window.open(
-          `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-            shareText
-          )}&url=${encodeURIComponent(shareUrl)}`,
-          "_blank"
-        );
-        break;
-      case "facebook":
-        window.open(
-          `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-            shareUrl
-          )}`,
-          "_blank"
-        );
-        break;
-      case "whatsapp":
-        window.open(
-          `https://wa.me/?text=${encodeURIComponent(
-            shareText + " " + shareUrl
-          )}`,
-          "_blank"
-        );
-        break;
-      case "telegram":
-        window.open(
-          `https://t.me/share/url?url=${encodeURIComponent(
-            shareUrl
-          )}&text=${encodeURIComponent(shareText)}`,
-          "_blank"
-        );
-        break;
-      case "copy":
-        navigator.clipboard.writeText(`${shareText}\n${shareUrl}`);
-        alert("Channel invite copied to clipboard!");
-        break;
-    }
-  };
   return (
     <>
-      <div className={styles.shareRow}>
+      <div className={styles.SettingsRow}>
         <button
-          onClick={() => shareChannel("whatsapp")}
+          onClick={() => SettingsChannel("whatsapp")}
           className={`${styles.button} ${styles.whatsapp}`}
         >
           <span className="text-sm">WhatsApp</span>
         </button>
 
         <button
-          onClick={() => shareChannel("telegram")}
+          onClick={() => SettingsChannel("telegram")}
           className={`${styles.button} ${styles.telegram}`}
         >
           <span className="text-sm">Telegram</span>
         </button>
+      </div>
 
+      <div className={styles.SettingsRow}>
         <button
-          onClick={() => shareChannel("twitter")}
+          onClick={() => SettingsChannel("twitter")}
           className={`${styles.button} ${styles.twitter}`}
         >
           <span className="text-sm">Twitter</span>
         </button>
 
         <button
-          onClick={() => shareChannel("facebook")}
+          onClick={() => SettingsChannel("facebook")}
           className={`${styles.button} ${styles.facebook}`}
         >
           <span className="text-sm">Facebook</span>
         </button>
       </div>
-
       <button
-        onClick={() => shareChannel("copy")}
+        onClick={() => SettingsChannel("copy")}
         className={`${styles.button} ${styles.copy}`}
       >
         <Clipboard size={20} />

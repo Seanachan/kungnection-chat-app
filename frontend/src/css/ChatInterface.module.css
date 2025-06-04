@@ -114,16 +114,24 @@
   gap: 8px;
   align-items: center;
 }
-.addFriendButton {
-  background: none;
-  border: none;
-  padding: 4px;
-  display:flexbox;
+
+.ShareButton {
+  all: unset;
+  display: flex;
   align-items: center;
-  cursor: pointer;
+  gap: 8px;
+  padding: 24px 32px;
+  width: 100%;
   color: var(--color-text-muted);
+  cursor: pointer;
 }
 
-.addFriendButton:hover {
-  color: var(--color-primary);
+.ShareButton:hover {
+  background-color: var(--color-sidebar-hover);
+  color: var(--color-foreground);
+}
+
+.ShareText {
+  margin-left: 8px;
+  font-size: 14px;
 }
