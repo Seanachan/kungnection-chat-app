@@ -2,6 +2,7 @@ import type React from "react";
 import { useState } from "react";
 import styles from "../css/ChannelForm.module.css";
 import { Loader2 } from "lucide-react";
+import {BASE_URL} from "../config"
 
 interface CreateChannelFormProps {
   onCancel: () => void;
@@ -44,7 +45,7 @@ export default function CreateChannelForm({
         return;
       }
 
-      const response = await fetch("http://localhost:8080/user/channels", {
+      const response = await fetch(`${BASE_URL}/user/channels`, {
         method: "POST",
         headers: {
           "Content-Type": "text/plain",
@@ -117,8 +118,3 @@ export default function CreateChannelForm({
     </form>
   );
 }
-// {code: 'XTTRLB', name: 'channel', members: null, messages: null}
-// Sidebar.tsx:38 {channels: Array(1), friends: Array(0)}
-// CreateChannelForm.tsx:23 Joined Text channel: channel2
-// CreateChannelForm.tsx:71 {code: '2ITFQP', name: 'channel2', members: null, messages: null}
-// AB0MZ4

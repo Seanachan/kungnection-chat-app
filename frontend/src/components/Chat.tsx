@@ -5,6 +5,7 @@ import CodeBlock from "./CodeBlock";
 import styles from "../css/ChatInterface.module.css";
 import MarkdownRenderer from "./MarkdownRenderer";
 import Share from "./Share";
+import { BASE_URL } from "../config";
 // import voiceChannels from "./VoiceChannels";
 
 const Chat = ({
@@ -29,7 +30,7 @@ const Chat = ({
       if (!token) throw new Error("Not authenticated");
 
       const response = await fetch(
-        `http://localhost:8080/messages/friend/${activeChannel.code}`,
+        `${BASE_URL}/messages/friend/${activeChannel.code}`,
         {
           method: "POST",
           headers: {

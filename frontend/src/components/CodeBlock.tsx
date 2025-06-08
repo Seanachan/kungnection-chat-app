@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Play, Clipboard, Check } from "lucide-react";
 import { CodeBlockProps } from "../types";
 import styles from "../css/CodeBlock.module.css";
+import {BASE_URL} from "../config"
 
 const CodeBlock = ({ code }: CodeBlockProps) => {
   const [copied, setCopied] = useState<boolean>(false);
@@ -12,7 +13,7 @@ const CodeBlock = ({ code }: CodeBlockProps) => {
   const codeMatch = code.match(/```(\w+)?\n([\s\S]+?)\n```/);
   const language = codeMatch?.[1] || "javascript";
   const codeContent = codeMatch?.[2] || code;
-  const judge0ApiSubmitAddress = "http://localhost:8080/api/judge0/submit";
+  const judge0ApiSubmitAddress = `${BASE_URL}/api/judge0/submit`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(codeContent);

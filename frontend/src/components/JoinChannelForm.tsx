@@ -2,6 +2,7 @@ import type React from "react";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import styles from "../css/ChannelForm.module.css";
+import {BASE_URL} from "../config"
 
 interface JoinChannelFormProps {
   onCancel: () => void;
@@ -42,7 +43,7 @@ export default function JoinChannelForm({
       }
 
       const response = await fetch(
-        `http://localhost:8080/user/channels/join?code=${channelCode}`,
+        `${BASE_URL}/user/channels/join?code=${channelCode}`,
         {
           method: "POST",
           headers: {

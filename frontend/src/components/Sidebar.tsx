@@ -4,8 +4,7 @@ import TextChannels from "./TextChannels";
 // import VoiceChannel from "./VoiceChannels";
 import PersonalChannel from "./PersonalChannels";
 import Settings from "./Settings";
-// import Modal from "./Modal";
-
+import {BASE_URL} from "../config"
 interface SidebarProps {
   activeChannel: { code: string; name: string };
   setActiveChannel: (activeChannel: { code: string; name: string }) => void;
@@ -24,7 +23,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     const token = localStorage.getItem("token");
     if (!token) return;
 
-    const response = await fetch("http://localhost:8080/user/sidebar", {
+    const response = await fetch(`${BASE_URL}/user/sidebar`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

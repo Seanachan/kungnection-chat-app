@@ -2,6 +2,8 @@ import styles from "../../css/login.module.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import {BASE_URL} from "../../config"
+
 export default function LoginPage({
   setIsLoggedIn,
 }: {
@@ -50,7 +52,7 @@ export default function LoginPage({
       return;
     }
     try {
-      const response = await fetch("http://localhost:8080/auth/login", {
+      const response = await fetch(`${BASE_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

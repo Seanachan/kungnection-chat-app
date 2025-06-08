@@ -2,6 +2,7 @@ import type React from "react";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import styles from "../css/ChannelForm.module.css";
+import { BASE_URL } from "../config";
 
 interface AddFriendFormProps {
   onCancel: () => void;
@@ -36,7 +37,7 @@ export default function AddFriendForm({
       }
 
       const response = await fetch(
-        `http://localhost:8080/user/friends/add?username=${friendID}`,
+        `${BASE_URL}/user/friends/add?username=${friendID}`,
         {
           method: "POST",
           headers: {
