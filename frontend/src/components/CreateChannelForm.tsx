@@ -15,7 +15,6 @@ export default function CreateChannelForm({
   onSuccess
 }: CreateChannelFormProps) {
   const [channelName, setChannelName] = useState("");
-  const [isVoice, setIsVoice] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,7 +33,6 @@ export default function CreateChannelForm({
       );
       return;
     }
-    setIsVoice(false);
     setIsLoading(true);
     setError(null);
 

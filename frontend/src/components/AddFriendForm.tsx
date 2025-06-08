@@ -11,15 +11,11 @@ interface AddFriendFormProps {
 
 export default function AddFriendForm({
   onCancel,
-  type,
   onSuccess,
 }: AddFriendFormProps) {
   const [friendID, setfriendID] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const handleAddFriend = async (message: string, type: string) => {
-    onCancel(); // Close modal after successful join
-  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 

@@ -14,7 +14,6 @@ export default function LoginPage({
   const [error, setError] = useState<
     Partial<Record<"email" | "password" | "submit", string>>
   >({});
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name as "email" | "password";
@@ -50,7 +49,6 @@ export default function LoginPage({
     if (!validateForm()) {
       return;
     }
-    setIsLoading(true);
     try {
       const response = await fetch("http://localhost:8080/auth/login", {
         method: "POST",
@@ -104,9 +102,7 @@ export default function LoginPage({
       }
 
       setError({ submit: errorMessage });
-    } finally {
-      setIsLoading(false);
-    }
+    } 
   };
   return (
     <>
