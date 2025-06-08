@@ -85,7 +85,7 @@ const Chat = ({
         if (!token) throw new Error("Not authenticated");
 
         const response = await fetch(
-          `http://localhost:8080/messages/friend/${activeChannel.code}`,
+          `${BASE_URL}/messages/friend/${activeChannel.code}`,
           {
             method: "GET",
             headers: {
@@ -128,7 +128,7 @@ const Chat = ({
       const token = localStorage.getItem("token");
       if (!token || !activeChannel.code) return;
 
-      fetch(`http://localhost:8080/messages/friend/${activeChannel.code}`, {
+      fetch(`${BASE_URL}/messages/friend/${activeChannel.code}`, {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       })
