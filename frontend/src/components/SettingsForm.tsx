@@ -304,7 +304,7 @@ export default function Settings({ activeChannel, channels }: SettingsProps) {
             onClick={() => {
               localStorage.removeItem("token");
               localStorage.setItem("isLoggedIn", "false");
-              window.location.href = "/login";
+              window.location.href = "/";
             }}
           >
             Sign Out
