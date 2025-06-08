@@ -1,9 +1,12 @@
-FROM eclipse-temurin:17-jdk
-
+# Build Stage
+FROM gradle:8.1.1-jdk17 AS builder
 WORKDIR /app
+COPY . .
+RUN ./gradlew build --no-daemon
 
-COPY build/libs/Kungnection-0.0.1-SNAPSHOT.jar app.jar
-
+# Runtime Stage
+FROM eclipse-temurin:17-jdk
+WORKDIR /app
+COPY --from=builder /app/build/libs/*.jar app.jar
 EXPOSE 8080
-
 ENTRYPOINT ["java", "-jar", "app.jar"]
