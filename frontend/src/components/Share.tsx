@@ -4,7 +4,7 @@ import Modal from "./Modal";
 import ShareForm from "./ShareForm";
 import styles from "../css/Sidebar.module.css";
 interface ShareProps {
-  activeChannel: string;
+  activeChannel: { code: string; name: string };
 }
 const Share: React.FC<ShareProps> = ({ activeChannel }) => {
   const [isShareOpen, setIsShareOpen] = useState(false);
@@ -26,7 +26,9 @@ const Share: React.FC<ShareProps> = ({ activeChannel }) => {
         onClose={() => setIsShareOpen(false)}
         title="Share"
       >
-        <ShareForm activeChannel={activeChannel} />
+        <ShareForm
+            activeChannel={activeChannel}
+        />
       </Modal>
     </>
   );

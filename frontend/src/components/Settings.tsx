@@ -4,9 +4,10 @@ import Modal from "./Modal";
 import SettingsForm from "./SettingsForm";
 import styles from "../css/Sidebar.module.css";
 interface SettingsProps {
-  activeChannel: string;
+  activeChannel: ({code: string, name:string});
+    channels: { name: string; code: string }[];
 }
-const Settings: React.FC<SettingsProps> = ({ activeChannel }) => {
+const Settings: React.FC<SettingsProps> = ({ activeChannel, channels }) => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   return (
     <>
@@ -26,7 +27,7 @@ const Settings: React.FC<SettingsProps> = ({ activeChannel }) => {
         onClose={() => setIsSettingsOpen(false)}
         title="Settings"
       >
-        <SettingsForm activeChannel={activeChannel} />
+        <SettingsForm activeChannel={activeChannel} channels={channels} />
       </Modal>
     </>
   );

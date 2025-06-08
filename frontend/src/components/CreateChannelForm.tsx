@@ -4,13 +4,15 @@ import styles from "../css/ChannelForm.module.css";
 import { Loader2 } from "lucide-react";
 
 interface CreateChannelFormProps {
-  onCreate: (channelName: string, isVoice: boolean) => void;
   onCancel: () => void;
+  type: string;
+  onSuccess?: () => void;
 }
 
 export default function CreateChannelForm({
-  onCreate,
   onCancel,
+  type,
+  onSuccess
 }: CreateChannelFormProps) {
   const [channelName, setChannelName] = useState("");
   const [isVoice, setIsVoice] = useState(false);
@@ -37,13 +39,33 @@ export default function CreateChannelForm({
     setError(null);
 
     try {
-      // In a real app, this would make an API call to create the channel
-      // For now, we'll simulate a network request
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setError("You must be logged in to create a channel.");
+        setIsLoading(false);
+        return;
+      }
 
-      onCreate(channelName, isVoice);
-    } catch (err) {
-      setError("Failed to create channel. Please try again.");
+      const response = await fetch("http://localhost:8080/user/channels", {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain",
+          Authorization: `Bearer ${token}`,
+        },
+        body: channelName,
+      });
+
+      if (!response.ok) {
+        const message = await response.text();
+        throw new Error(message || "Failed to create channel.");
+      }
+
+      const data = await response.json();
+
+      onSuccess?.();
+      console.log(data);
+    } catch (err: any) {
+      setError(err?.message || "Failed to create channel. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -90,10 +112,15 @@ export default function CreateChannelForm({
               Creating...
             </>
           ) : (
-            "Create Channel"
+            `"Create ${type} Channel"`
           )}
         </button>
       </div>
     </form>
   );
 }
+// {code: 'XTTRLB', name: 'channel', members: null, messages: null}
+// Sidebar.tsx:38 {channels: Array(1), friends: Array(0)}
+// CreateChannelForm.tsx:23 Joined Text channel: channel2
+// CreateChannelForm.tsx:71 {code: '2ITFQP', name: 'channel2', members: null, messages: null}
+// AB0MZ4

@@ -1,8 +1,14 @@
-"use client";
-
 import { useState } from "react";
-import { Eye, EyeOff, User, Mail, Lock, ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import {
+  Eye,
+  EyeOff,
+  User,
+  Mail,
+  Lock,
+  ArrowLeft,
+  Loader2,
+} from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../../css/Register.module.css";
 
 type RegisterErrors = {
@@ -24,14 +30,9 @@ export default function RegisterPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState<RegisterErrors>({});
   const [isLoading, setIsLoading] = useState(false);
-
+  const navigate = useNavigate();
   const validateForm = () => {
-    const newErrors = {
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    };
+    const newErrors: RegisterErrors = {};
 
     // Username validation
     if (!formData.username.trim()) {
@@ -91,21 +92,36 @@ export default function RegisterPage() {
     e.preventDefault();
 
     if (!validateForm()) {
+      console.log("Not validate form");
       return;
     }
 
     setIsLoading(true);
 
     try {
-      // In a real app, this would make an API call to your Java backend
-      // For demo purposes, we'll simulate a network request
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const response = await fetch("http://localhost:8080/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+          nickname: formData.username, // default nickname same as username
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("REGISTRATION_FAILED");
+      }
 
-      // Simulate successful registration
-      alert("Registration successful! Welcome to CodeChat!");
+      // Simulate successful login
+      alert("Regsiter successful! Please log in again!");
 
-      // In a real app, you would redirect to login or dashboard
-      // window.location.to = "/login"
+      // Optionally parse user data
+      const responseText = await response.text();
+      console.log("Registered user:", responseText);
+      navigate("/login");
     } catch (error) {
       setErrors({ submit: "Registration failed. Please try again." });
     } finally {
@@ -260,26 +276,7 @@ export default function RegisterPage() {
             >
               {isLoading ? (
                 <>
-                  <svg
-                    className={styles.loadingSpinner}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
+                  <Loader2 className={styles.loadingSpinner} />
                   Creating Account...
                 </>
               ) : (

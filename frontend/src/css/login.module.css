@@ -272,3 +272,23 @@
 .registerPrompt a:hover {
   color: #38bdf8;
 }
+
+/* Errors */
+.errorMessage {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: rgb(239, 68, 68);
+}
+
+.submitError {
+  font-size: 0.875rem;
+  color: rgb(239, 68, 68);
+  text-align: center;
+}
+
+.helperText{
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: rgb(107, 114, 128);
+  font-style: italic;
+}

@@ -1,57 +1,43 @@
-import { useState } from "react";
-import { Clipboard, Facebook, Twitter } from "lucide-react";
+import { Clipboard, Twitter } from "lucide-react";
+import { siFacebook, siWhatsapp, siTelegram } from "simple-icons/icons";
 import styles from "../css/Share.module.css";
 interface settingsProp {
-  activeChannel: string;
+  activeChannel: { code: string; name: string };
 }
 const ShareForm: React.FC<settingsProp> = ({ activeChannel }) => {
   const shareChannel = (platform: string) => {
-    const generateChannelCode = (channelId: string) => {
-      // In a real app, this would generate a unique invite code from the backend
-      // For demo purposes, we'll create a simple code
-      //TO-DO: do real generated hash
-      return `${channelId}-invite-${Math.random().toString(36).substr(2, 6)}`;
-    };
-
-    const channelCode = generateChannelCode(activeChannel);
-    const shareText = `Join me in the ${activeChannel} channel on CodeChat! Use code: ${channelCode}`;
-    const shareUrl = `https://kungnection.app/join/${channelCode}`;
-
+    const shareText = `Join me in the ${activeChannel} channel on Kungnection! Use code: ${activeChannel.code}`;
     switch (platform) {
       case "twitter":
         window.open(
           `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-            shareText
-          )}&url=${encodeURIComponent(shareUrl)}`,
-          "_blank"
+            shareText,
+          )}`,
+          "_blank",
         );
         break;
       case "facebook":
         window.open(
-          `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-            shareUrl
+          `https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(
+            shareText,
           )}`,
-          "_blank"
+          "_blank",
         );
         break;
       case "whatsapp":
         window.open(
-          `https://wa.me/?text=${encodeURIComponent(
-            shareText + " " + shareUrl
-          )}`,
-          "_blank"
+          `https://wa.me/?text=${encodeURIComponent(shareText)}`,
+          "_blank",
         );
         break;
       case "telegram":
         window.open(
-          `https://t.me/share/url?url=${encodeURIComponent(
-            shareUrl
-          )}&text=${encodeURIComponent(shareText)}`,
-          "_blank"
+          `https://t.me/share/url?text=${encodeURIComponent(shareText)}`,
+          "_blank",
         );
         break;
       case "copy":
-        navigator.clipboard.writeText(`${shareText}\n${shareUrl}`);
+        navigator.clipboard.writeText(`${shareText}`);
         alert("Channel invite copied to clipboard!");
         break;
     }
@@ -63,6 +49,15 @@ const ShareForm: React.FC<settingsProp> = ({ activeChannel }) => {
           onClick={() => shareChannel("whatsapp")}
           className={`${styles.button} ${styles.whatsapp}`}
         >
+          <span
+            dangerouslySetInnerHTML={{ __html: siWhatsapp.svg }}
+            style={{
+              width: 20,
+              height: 20,
+              display: "inline-block",
+              fill: "#FFFFFF",
+            }}
+          />
           <span className="text-sm">WhatsApp</span>
         </button>
 
@@ -70,6 +65,15 @@ const ShareForm: React.FC<settingsProp> = ({ activeChannel }) => {
           onClick={() => shareChannel("telegram")}
           className={`${styles.button} ${styles.telegram}`}
         >
+          <span
+            dangerouslySetInnerHTML={{ __html: siTelegram.svg }}
+            style={{
+              width: 20,
+              height: 20,
+              display: "inline-block",
+              fill: "#FFFFFF",
+            }}
+          />
           <span className="text-sm">Telegram</span>
         </button>
       </div>
@@ -79,7 +83,7 @@ const ShareForm: React.FC<settingsProp> = ({ activeChannel }) => {
           onClick={() => shareChannel("twitter")}
           className={`${styles.button} ${styles.twitter}`}
         >
-          <Twitter size={20}/>
+          <Twitter size={20} />
           <span className="text-sm">Twitter</span>
         </button>
 
@@ -87,8 +91,15 @@ const ShareForm: React.FC<settingsProp> = ({ activeChannel }) => {
           onClick={() => shareChannel("facebook")}
           className={`${styles.button} ${styles.facebook}`}
         >
-
-          <Facebook size={20}/>
+          <span
+            dangerouslySetInnerHTML={{ __html: siFacebook.svg }}
+            style={{
+              width: 20,
+              height: 20,
+              display: "inline-block",
+              fill: "#FFFFFF",
+            }}
+          />
           <span className="text-sm">Facebook</span>
         </button>
       </div>

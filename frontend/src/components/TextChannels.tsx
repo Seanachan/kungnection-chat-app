@@ -1,74 +1,31 @@
 import styles from "../css/Sidebar.module.css";
 import React, { useState } from "react";
-import {
-  Hash,
-  Cat,
-  Code,
-  ChevronDown,
-  ChevronRight,
-  Plus,
-  UserPlus,
-} from "lucide-react";
+import { Hash, ChevronDown, ChevronRight, Plus, UserPlus } from "lucide-react";
 import Modal from "./Modal";
 import JoinChannelForm from "./JoinChannelForm";
 import CreateChannelForm from "./CreateChannelForm";
 
-interface Channel {
-  id: string;
-  name: string;
-  icon: React.ReactNode;
-}
-
 interface TextChannelsProps {
-  activeChannel?: string;
-  setActiveChannel: (id: string) => void;
+  activeChannel?: ({code: string, name:string});
+  setActiveChannel: (code: string, name:string) => void;
+  onChannelUpdate?: () => void;
+  channels: { name: string; code: string }[];
 }
 
-export const textChannels: Channel[] = [
-  { id: "General", name: "General", icon: <Hash size={20} /> },
-  { id: "Game", name: "Game", icon: <Cat size={20} /> },
-  { id: "Music", name: "Music", icon: <Hash size={20} /> },
-  { id: "JavaScript", name: "JavaScript", icon: <Code size={20} /> },
-];
-
-/**
- * TextChannels component that displays a list of text channels
- * @param activeChannel - The currently selected channel ID
- * @param setActiveChannel - Function to update the active channel
- */
 const TextChannels: React.FC<TextChannelsProps> = ({
   activeChannel,
   setActiveChannel,
+  channels,
+  onChannelUpdate,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const handleCreateChannel = (code: string) => {
-    console.log(code);
-  };
-  const handleJoinChannel = (code: string) => {
-    // In a real app, this would fetch channel details from the backend
-    // For demo purposes, we'll create a new channel based on the code
 
-    // Check if it's a voice channel code (starts with "voice-")
-    if (code.startsWith("voice-")) {
-      // const channelName = code.replace("voice-", "");
-      // const newChannel = {
-      //   id: code,
-      //   name: channelName,
-      //   icon: <Mic size={20} />,
-      // };
-    } else if (code.startsWith("text-")) {
-      // const channelName = code.replace("voice-", "");
-      // const newChannel = {
-      //   id: code,
-      //   name: channelName,
-      //   icon: <Hash size={20} />,
-      // };
-    }
+  if (!channels) {
+    channels = [{ name: "General", code: "General" }];
+  }
 
-    // Close the modal
-  };
   return (
     <>
       <div className={styles.channelSection}>
@@ -111,17 +68,19 @@ const TextChannels: React.FC<TextChannelsProps> = ({
         {!isCollapsed && (
           <ul className={styles.channelList}>
             {/* Map through available channels and render each as a list item */}
-            {textChannels.map((channel) => (
-              <li key={channel.id}>
+            {channels.map((channel) => (
+              <li key={channel.code}>
                 <button
                   // Apply active style when this channel is selected
                   className={`${styles.channelButton} ${
-                    activeChannel === channel.id ? styles.active : ""
+                    activeChannel?.code === channel.code ? styles.active : ""
                   }`}
-                  onClick={() => setActiveChannel(channel.id)}
+                  onClick={() => setActiveChannel(channel.code, channel.name)}
                 >
                   {/* Channel icon */}
-                  <span className={styles.channelIcon}>{channel.icon}</span>
+                  <span className={styles.channelIcon}>
+                    <Hash size={20} />
+                  </span>
                   {/* Channel name */}
                   <span>{channel.name}</span>
                 </button>
@@ -134,11 +93,12 @@ const TextChannels: React.FC<TextChannelsProps> = ({
       <Modal
         isOpen={isJoinModalOpen}
         onClose={() => setIsJoinModalOpen(false)}
-        title="Join a Channel"
+        title="Join a Text Channel"
       >
         <JoinChannelForm
-          onJoin={handleJoinChannel}
           onCancel={() => setIsJoinModalOpen(false)}
+          type="text"
+          onSuccess={onChannelUpdate}
         />
       </Modal>
 
@@ -146,11 +106,12 @@ const TextChannels: React.FC<TextChannelsProps> = ({
       <Modal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
-        title="Create a Channel"
+        title="Create a Text Channel"
       >
         <CreateChannelForm
-          onCreate={handleCreateChannel}
           onCancel={() => setIsCreateModalOpen(false)}
+          type="Text"
+          onSuccess={onChannelUpdate}
         />
       </Modal>
     </>

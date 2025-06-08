@@ -73,7 +73,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
       });
 
 
-      return <span dangerouslySetInnerHTML={{ __html: t }} />;
+      return <span key={Math.random()} dangerouslySetInnerHTML={{ __html: t }} />;
     });
 
     return formatted;

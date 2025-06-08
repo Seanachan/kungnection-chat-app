@@ -3,30 +3,28 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import styles from "../css/ChannelForm.module.css";
 
-interface JoinChannelFormProps {
+interface AddFriendFormProps {
   onCancel: () => void;
   type: string;
-  onSuccess?: () => void;
+  onSuccess: () => void;
 }
 
-export default function JoinChannelForm({
+export default function AddFriendForm({
   onCancel,
   type,
   onSuccess,
-}: JoinChannelFormProps) {
-  const [channelCode, setChannelCode] = useState("");
+}: AddFriendFormProps) {
+  const [friendID, setfriendID] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const handleJoinChannel = async (message: string, type: string) => {
-    console.log(`Joined ${type} channel:`, message);
-    // Optional: show a toast, update parent state, etc.
+  const handleAddFriend = async (message: string, type: string) => {
     onCancel(); // Close modal after successful join
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!channelCode.trim()) {
-      setError("Please enter a channel code");
+    if (!friendID.trim()) {
+      setError("Please enter a Friend's ID");
       return;
     }
 
@@ -36,13 +34,13 @@ export default function JoinChannelForm({
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        setError("You must be logged in to join a channel.");
+        setError("You must be logged in to add a friend.");
         setIsLoading(false);
         return;
       }
 
       const response = await fetch(
-        `http://localhost:8080/user/channels/join?code=${channelCode}`,
+        `http://localhost:8080/user/friends/add?username=${friendID}`,
         {
           method: "POST",
           headers: {
@@ -53,15 +51,16 @@ export default function JoinChannelForm({
 
       const text = await response.text();
       if (!response.ok) {
-        setError("Invalid or expired channel code");
+        setError("Invalid Friend ID");
         setIsLoading(false);
         return;
       }
       console.log(text);
-      handleJoinChannel(text, type);
-      onSuccess?.();
+      onCancel();
+      // handleAddFriend(text, type);
+      onSuccess();
     } catch (err) {
-      setError("Failed to join channel. Please try again.");
+      setError("Failed to add a friend. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -71,21 +70,20 @@ export default function JoinChannelForm({
     <form onSubmit={handleSubmit} className={styles.form}>
       <div>
         <label htmlFor="channel-code" className={styles.label}>
-          Channel Code or Invite Link
+          Enter Friend's ID
         </label>
         <input
           type="text"
           id="channel-code"
-          value={channelCode}
-          onChange={(e) => setChannelCode(e.target.value)}
-          placeholder="Enter channel code or invite link"
+          value={friendID}
+          onChange={(e) => setfriendID(e.target.value)}
+          placeholder="Friend's ID"
           className={styles.input}
           disabled={isLoading}
         />
         {error && <p className={styles.error}>{error}</p>}
         <p className={styles.helpText}>
-          Enter a channel code to join an existing channel. For voice channels,
-          use "voice-" prefix.
+          Enter a Friend's shared via link.
         </p>
       </div>
 
@@ -109,7 +107,7 @@ export default function JoinChannelForm({
               Joining...
             </>
           ) : (
-            "Join Channel"
+            "Add Friend"
           )}
         </button>
       </div>
