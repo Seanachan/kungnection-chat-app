@@ -3,6 +3,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./components/login/LoginPage";
 import RegisterPage from "./components/login/Register";
 import ChatInterface from "./components/ChatInterface";
+import EditProfilePage from "./components/edit-profile/page";
+import ChangePasswordPage from "./components/change-passwd/page";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -11,7 +13,8 @@ function App() {
   const [activeChannel, setActiveChannel] = useState<{
     code: string;
     name: string;
-  }>({ code: "", name: "" });
+    type: string;
+  }>({ code: "", name: "", type: "" });
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -50,6 +53,19 @@ function App() {
           }
         />
         <Route
+          path="/edit-profile"
+          element={
+            isLoggedIn ? <EditProfilePage/> : <Navigate to="/login" />
+          }
+        />
+
+        <Route
+          path="/change-passwd"
+          element={
+            isLoggedIn ? <ChangePasswordPage/> : <Navigate to="/login" />
+          }
+        />
+        <Route
           path="/login"
           element={
             isLoggedIn ? (
@@ -72,7 +88,10 @@ function App() {
             )
           }
         />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route
+          path="/register"
+          element={isLoggedIn ? <Navigate to="/chat" /> : <RegisterPage />}
+        />
       </Routes>
     </>
   );

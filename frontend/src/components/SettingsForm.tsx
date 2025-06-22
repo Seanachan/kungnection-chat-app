@@ -1,6 +1,8 @@
 import { Clipboard } from "lucide-react";
 import styles from "../css/Settings.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { BASE_URL } from "../config";
+import { UserInfo } from "../types/index.ts";
 interface SettingsProps {
   activeChannel: { code: string; name: string };
   channels: any[];
@@ -9,6 +11,7 @@ interface SettingsProps {
 export default function Settings({ activeChannel, channels }: SettingsProps) {
   const onShare = (platform: string) => {
     const shareText = `Join me in the ${activeChannel.name} channel on Kungnection! Use code: ${activeChannel.code}`;
+
     switch (platform) {
       case "twitter":
         window.open(
@@ -44,6 +47,10 @@ export default function Settings({ activeChannel, channels }: SettingsProps) {
         break;
     }
   };
+  const [, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+
   const [settings, setSettings] = useState({
     messageNotifications: true,
     soundEffects: true,
@@ -75,6 +82,40 @@ export default function Settings({ activeChannel, channels }: SettingsProps) {
   ) => {
     handleSettingChange(key, event.target.checked);
   };
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setError("You must be logged in.");
+          return;
+        }
+        const response = await fetch(`${BASE_URL}/user/me`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch user info");
+        }
+
+        const data = await response.json();
+        setUserInfo({
+          username: data.username,
+          email: data.email,
+          nickname: data.nickname,
+        });
+      } catch (err) {
+        setError("Failed to fetch user info. Please try again.");
+        console.log(error);
+      }
+    };
+    fetchUserInfo();
+  }, []);
 
   return (
     <>
@@ -85,11 +126,13 @@ export default function Settings({ activeChannel, channels }: SettingsProps) {
           <div className={styles.personalInfoCard}>
             <div className={styles.userProfile}>
               <div className={styles.avatar}>
-                <span className={styles.avatarText}>JD</span>
+                <span className={styles.avatarText}>
+                  {userInfo?.nickname ? userInfo.nickname.substring(0, 1) : ""}
+                </span>
               </div>
               <div className={styles.userInfo}>
-                <p className={styles.userName}>John Doe</p>
-                <p className={styles.userEmail}>john.doe@example.com</p>
+                <p className={styles.userName}>{userInfo?.username}</p>
+                <p className={styles.userEmail}>{userInfo?.email}</p>
                 <p className={styles.userStatus}>● Online</p>
               </div>
             </div>
@@ -290,11 +333,17 @@ export default function Settings({ activeChannel, channels }: SettingsProps) {
           <div className={styles.actionButtonGroup}>
             <button
               className={`${styles.actionButton} ${styles.primaryButton}`}
+              onClick={() => {
+                window.location.href = "/edit-profile";
+              }}
             >
               Edit Profile
             </button>
             <button
               className={`${styles.actionButton} ${styles.secondaryButton}`}
+              onClick={() => {
+                window.location.href = "/change-passwd";
+              }}
             >
               Change Password
             </button>

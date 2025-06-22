@@ -2,13 +2,13 @@ import { useState } from "react";
 import { Play, Clipboard, Check } from "lucide-react";
 import { CodeBlockProps } from "../types";
 import styles from "../css/CodeBlock.module.css";
-import {BASE_URL} from "../config"
+import { BASE_URL } from "../config";
 
 const CodeBlock = ({ code }: CodeBlockProps) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [output, setOutput] = useState<string | null>(null);
   const [isRunning, setIsRunning] = useState<boolean>(false);
-
+  // const token;
   // Extract code content and language from markdown-style code blocks
   const codeMatch = code.match(/```(\w+)?\n([\s\S]+?)\n```/);
   const language = codeMatch?.[1] || "javascript";
@@ -54,6 +54,10 @@ const CodeBlock = ({ code }: CodeBlockProps) => {
         console.log("Language Not Supported");
         setOutput("Language Not Supported");
       } else {
+        // console.log(import.meta.env.)
+        // const token = localStorage.getItem("token");
+        // if (!token) throw new Error("Not authenticated");
+        console.log(judge0ApiSubmitAddress);
         const response = await fetch(judge0ApiSubmitAddress, {
           method: "POST",
           headers: {

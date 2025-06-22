@@ -4,10 +4,14 @@ import TextChannels from "./TextChannels";
 // import VoiceChannel from "./VoiceChannels";
 import PersonalChannel from "./PersonalChannels";
 import Settings from "./Settings";
-import {BASE_URL} from "../config"
+import { BASE_URL } from "../config";
 interface SidebarProps {
-  activeChannel: { code: string; name: string };
-  setActiveChannel: (activeChannel: { code: string; name: string }) => void;
+  activeChannel: { code: string; name: string; type: string };
+  setActiveChannel: (activeChannel: {
+    code: string;
+    name: string;
+    type: string;
+  }) => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -20,34 +24,39 @@ const Sidebar: React.FC<SidebarProps> = ({
   const [friends, setFriends] = useState<{ id: number; name: string }[]>([]);
 
   const fetchSidebarData = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("No token found in localStorage");
 
-    const response = await fetch(`${BASE_URL}/user/sidebar`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+      const response = await fetch(`${BASE_URL}/user/sidebar`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    if (!response.ok) {
-      console.error("Failed to fetch sidebar data");
-      return;
+      if (!response.ok) {
+        const text = await response.text();
+        console.error("❌ Sidebar fetch failed. Status:", response.status, "Message:", text);
+        throw new Error("Sidebar fetch failed with status " + response.status);
+      }
+
+      const data = await response.json();
+      console.log("✅ Channels:", data.channels);
+      console.log("✅ Friends:", data.friends);
+      setChannels(data.channels || []);
+      setFriends(data.friends || []);
+    } catch (error) {
+      console.error("🔥 Failed to fetch sidebar data", error);
     }
-
-    const data = await response.json();
-    console.log(data.channels);
-    console.log(data.friends);
-    setChannels(data.channels || []);
-    setFriends(data.friends || []);
   };
 
   useEffect(() => {
     fetchSidebarData();
   }, []);
 
-  const handleChannelChange = (code: string, name: string) => {
-    setActiveChannel({ code, name });
+  const handleChannelChange = (code: string, name: string, type: string) => {
+    setActiveChannel({ code, name, type });
   };
 
   return (
@@ -63,6 +72,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           activeChannel={{
             code: activeChannel.code,
             name: activeChannel.name,
+            type: activeChannel.type,
           }}
           setActiveChannel={handleChannelChange}
           channels={channels}

@@ -11,7 +11,7 @@ import { BASE_URL } from "../config";
 const Chat = ({
   activeChannel,
 }: {
-  activeChannel: { code: string; name: string } | null;
+  activeChannel: { code: string; name: string; type: string } | null;
 }) => {
   if (!activeChannel || !activeChannel.code) {
     return null;
@@ -30,7 +30,9 @@ const Chat = ({
       if (!token) throw new Error("Not authenticated");
 
       const response = await fetch(
-        `${BASE_URL}/messages/friend/${activeChannel.code}`,
+        activeChannel.type === "personal"
+          ? `${BASE_URL}/messages/friend/${activeChannel.code}`
+          : `${BASE_URL}/messages/channel/${activeChannel.code}`,
         {
           method: "POST",
           headers: {
@@ -85,7 +87,9 @@ const Chat = ({
         if (!token) throw new Error("Not authenticated");
 
         const response = await fetch(
-          `${BASE_URL}/messages/friend/${activeChannel.code}`,
+          activeChannel.type == "personal"
+            ? `${BASE_URL}/messages/friend/${activeChannel.code}`
+            : `${BASE_URL}/messages/channel/${activeChannel.code}`,
           {
             method: "GET",
             headers: {
@@ -128,10 +132,15 @@ const Chat = ({
       const token = localStorage.getItem("token");
       if (!token || !activeChannel.code) return;
 
-      fetch(`${BASE_URL}/messages/friend/${activeChannel.code}`, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      fetch(
+        activeChannel.type == "personal"
+          ? `${BASE_URL}/messages/friend/${activeChannel.code}`
+          : `${BASE_URL}/messages/channel/${activeChannel.code}`,
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      )
         .then((res) => res.json())
         .then((data) => {
           setMessagesByChannel((prev) => ({

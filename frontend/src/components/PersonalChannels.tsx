@@ -11,7 +11,7 @@ import AddFriendForm from "./AddFriendForm";
 
 interface personalChannelProps {
   activeChannel?: string;
-  setActiveChannel: (code: string, name:string) => void;
+  setActiveChannel: (code: string, name:string, type:string) => void;
   friends: { id: number; name: string }[];
   onChannelUpdate: () => void;
 }
@@ -55,7 +55,7 @@ const personalChannel: React.FC<personalChannelProps> = ({
                   className={`${styles.channelButton} ${
                     activeChannel === String(friend.id) ? styles.active : ""
                   }`}
-                  onClick={() => setActiveChannel(String(friend.id), friend.name)}
+                  onClick={() => setActiveChannel(String(friend.id), friend.name, "personal")}
                 >
                   <span className={styles.channelIcon}>
                     <UserRound size={20} />

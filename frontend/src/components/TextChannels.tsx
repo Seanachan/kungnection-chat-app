@@ -6,8 +6,8 @@ import JoinChannelForm from "./JoinChannelForm";
 import CreateChannelForm from "./CreateChannelForm";
 
 interface TextChannelsProps {
-  activeChannel?: ({code: string, name:string});
-  setActiveChannel: (code: string, name:string) => void;
+  activeChannel?: ({code: string, name:string, type:string});
+  setActiveChannel: (code: string, name:string, type:string) => void;
   onChannelUpdate?: () => void;
   channels: { name: string; code: string }[];
 }
@@ -75,7 +75,7 @@ const TextChannels: React.FC<TextChannelsProps> = ({
                   className={`${styles.channelButton} ${
                     activeChannel?.code === channel.code ? styles.active : ""
                   }`}
-                  onClick={() => setActiveChannel(channel.code, channel.name)}
+                  onClick={() => setActiveChannel(channel.code, channel.name, "text")}
                 >
                   {/* Channel icon */}
                   <span className={styles.channelIcon}>
