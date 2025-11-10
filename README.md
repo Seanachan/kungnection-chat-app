@@ -2,14 +2,14 @@
 
 A modern, TypeScript-first chat application front-end, styled with Tailwind CSS and deployed on Vercel.
 
-> Live demo: [https://kungnection-chat-app.vercel.app/](https://kungnection-chat-app.vercel.app/)  ([GitHub][1])
+> Live demo: [https://kungnection-chat-app.vercel.app/](https://kungnection-chat-app.vercel.app/)  
 
 ---
 
 ## Quick links
 
-* **Production**: [https://kungnection-chat-app.vercel.app/](https://kungnection-chat-app.vercel.app/)  ([GitHub][1])
-* **Repo**: [https://github.com/Seanachan/kungnection-chat-app](https://github.com/Seanachan/kungnection-chat-app)  ([GitHub][1])
+* **Production**: [https://kungnection-chat-app.vercel.app/](https://kungnection-chat-app.vercel.app/) 
+* **Repo**: [https://github.com/Seanachan/kungnection-chat-app](https://github.com/Seanachan/kungnection-chat-app)
 
 ---
 
