@@ -15,11 +15,11 @@ A modern, TypeScript-first chat application front-end, styled with Tailwind CSS 
 
 ## Features
 
-> The repo currently exposes a TypeScript + Tailwind CSS frontend (languages breakdown on GitHub shows ~72% TypeScript, ~27% CSS). The app is deployed on Vercel. Adjust or expand this list to match implemented screens. ([GitHub][1])
+> The repo currently exposes a TypeScript + Tailwind CSS frontend (languages breakdown on GitHub shows ~72% TypeScript, ~27% CSS). The app is deployed on Vercel. Adjust or expand this list to match implemented screens.
 
-* TypeScript UI with responsive Tailwind CSS styling. ([GitHub][2])
-* Deployed on Vercel for fast, global edge delivery. ([GitHub][1])
-* Modular “frontend/” workspace to keep the UI stack isolated for future multi-service expansion. ([GitHub][1])
+* TypeScript UI with responsive Tailwind CSS styling.
+* Deployed on Vercel for fast, global edge delivery. 
+* Modular “frontend/” workspace to keep the UI stack isolated for future multi-service expansion. 
 
 **Planned (fill in / trim as your roadmap evolves):**
 
@@ -34,9 +34,9 @@ A modern, TypeScript-first chat application front-end, styled with Tailwind CSS 
 
 ## Tech stack
 
-* **Language**: TypeScript. ([GitHub][1])
-* **Styling**: Tailwind CSS + PostCSS (config files present). ([GitHub][2])
-* **Hosting**: Vercel (live deployment). ([GitHub][1])
+* **Language**: TypeScript. 
+* **Styling**: Tailwind CSS + PostCSS (config files present). 
+* **Hosting**: Vercel (live deployment). 
 * **Framework**: React with Next.js (assumption—common for Vercel + TS + Tailwind). If you’re using Vite/CRA instead, update the scripts/sections below.
 
 ---
@@ -69,7 +69,7 @@ frontend/                # UI workspace (Next.js or Vite)
   └─ postcss.config.js   # PostCSS pipeline
 ```
 
-Configs in repo: `tailwind.config.js`, `postcss.config.js`. ([GitHub][2])
+Configs in repo: `tailwind.config.js`, `postcss.config.js`.
 
 ---
 
@@ -142,8 +142,8 @@ npm run build && npm run start
 
 This project uses Tailwind + PostCSS; the configuration files are already present:
 
-* `tailwind.config.js` for theme, content scanning, and plugins. ([GitHub][2])
-* `postcss.config.js` for the build pipeline. ([GitHub][3])
+* `tailwind.config.js` for theme, content scanning, and plugins. 
+* `postcss.config.js` for the build pipeline. 
 
 Add the Tailwind directives to your global CSS (if not already):
 
@@ -163,7 +163,7 @@ The demo is hosted on Vercel. Typical Next.js deployment steps:
 2. Set environment variables in Vercel Project Settings → Environment Variables.
 3. Trigger a deployment; Vercel will build and serve automatically.
 
-Live URL: [https://kungnection-chat-app.vercel.app/](https://kungnection-chat-app.vercel.app/)  ([GitHub][1])
+Live URL: [https://kungnection-chat-app.vercel.app/](https://kungnection-chat-app.vercel.app/)  
 
 ---
 
@@ -198,14 +198,14 @@ If you’re on Vite instead, use:
 
 ## Roadmap
 
-* [ ] Realtime transport (Socket.IO / native WebSocket / Pusher / Supabase Realtime / Firebase).
-* [ ] Authentication + session management.
-* [ ] DMs, group rooms, and invites.
-* [ ] File/image uploads and CDN delivery.
-* [ ] Presence, typing indicators, read receipts.
-* [ ] Message search, pins, and reactions.
-* [ ] E2E or server-side encryption options.
-* [ ] Accessibility pass and i18n.
+*  Realtime transport (Socket.IO / native WebSocket / Pusher / Supabase Realtime / Firebase).
+*  Authentication + session management.
+*  DMs, group rooms, and invites.
+*  File/image uploads and CDN delivery.
+*  Presence, typing indicators, read receipts.
+*  Message search, pins, and reactions.
+*  E2E or server-side encryption options.
+*  Accessibility pass and i18n.
 
 ---
 
