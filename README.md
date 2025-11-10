@@ -227,7 +227,7 @@ Add your chosen license (MIT recommended for open collaboration). Include the fu
 
 ## Acknowledgements
 
-* Tailwind CSS and PostCSS configs are part of the repo. ([GitHub][2])
-* Deployed via Vercel (see the repo “About” and live link). ([GitHub][1])
+* Tailwind CSS and PostCSS configs are part of the repo. 
+* Deployed via Vercel (see the repo “About” and live link).
 
 ---
