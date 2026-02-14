@@ -105,7 +105,6 @@ export default function EditProfilePage() {
       if (formData.email !== userInfo?.email) {
         updatedFields.email = formData.email;
       }
-      console.log(updatedFields);
       const response = await fetch(`${BASE_URL}/user/me`, {
         method: "PATCH",
         headers: {
@@ -115,11 +114,7 @@ export default function EditProfilePage() {
         body: JSON.stringify(updatedFields),
       });
 
-      console.log(updatedFields);
-
       if (!response.ok) {
-        console.error(await response.text());
-        console.error("Failed to change password");
         return;
       }
 
@@ -166,7 +161,6 @@ export default function EditProfilePage() {
           nickname: data.nickname,
         });
       } catch (err) {
-        console.log(err);
         setError("Failed to fetch user info. Please try again.");
       } finally {
         setIsLoading(false);

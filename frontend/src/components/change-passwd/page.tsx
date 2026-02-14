@@ -56,8 +56,7 @@ export default function ChangePasswordPage() {
     }
 
     setErrors(newErrors);
-    console.log(Object.keys(newErrors).length);
-    return Object.keys(newErrors).length <=1;
+    return Object.keys(newErrors).length <= 1;
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,7 +86,6 @@ export default function ChangePasswordPage() {
     e.preventDefault();
 
     if (!validateForm()) {
-      console.log("invalid");
       return;
     }
 
@@ -95,10 +93,8 @@ export default function ChangePasswordPage() {
 
     try {
       const token = localStorage.getItem("token");
-      console.log(token);
       if (!token) return;
 
-      console.log(formData.newPassword);
       const response = await fetch(`${BASE_URL}/user/me`, {
         method: "PATCH",
         headers: {
@@ -111,8 +107,6 @@ export default function ChangePasswordPage() {
       });
 
       if (!response.ok) {
-        console.error(await response.text());
-        console.error("Failed to change password");
         return;
       }
 

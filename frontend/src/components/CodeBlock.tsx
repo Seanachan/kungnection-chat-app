@@ -28,7 +28,6 @@ const CodeBlock = ({ code }: CodeBlockProps) => {
 
     setIsRunning(true);
     try {
-      console.log(language);
       let languageId = 0;
       switch (language) {
         case "python":
@@ -51,13 +50,8 @@ const CodeBlock = ({ code }: CodeBlockProps) => {
           break;
       }
       if (languageId === -1) {
-        console.log("Language Not Supported");
         setOutput("Language Not Supported");
       } else {
-        // console.log(import.meta.env.)
-        // const token = localStorage.getItem("token");
-        // if (!token) throw new Error("Not authenticated");
-        console.log(judge0ApiSubmitAddress);
         const response = await fetch(judge0ApiSubmitAddress, {
           method: "POST",
           headers: {
@@ -83,7 +77,6 @@ const CodeBlock = ({ code }: CodeBlockProps) => {
       }
     } catch (e) {
       const message = e instanceof Error ? e.message : String(e);
-      console.error("Run code error:", message);
       setOutput(message);
     } finally {
       setIsRunning(false);

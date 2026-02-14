@@ -111,7 +111,6 @@ export default function Settings({ activeChannel, channels }: SettingsProps) {
         });
       } catch (err) {
         setError("Failed to fetch user info. Please try again.");
-        console.log(error);
       }
     };
     fetchUserInfo();

@@ -36,18 +36,14 @@ const Sidebar: React.FC<SidebarProps> = ({
       });
 
       if (!response.ok) {
-        const text = await response.text();
-        console.error("❌ Sidebar fetch failed. Status:", response.status, "Message:", text);
         throw new Error("Sidebar fetch failed with status " + response.status);
       }
 
       const data = await response.json();
-      console.log("✅ Channels:", data.channels);
-      console.log("✅ Friends:", data.friends);
       setChannels(data.channels || []);
       setFriends(data.friends || []);
     } catch (error) {
-      console.error("🔥 Failed to fetch sidebar data", error);
+      // Silently handle sidebar fetch errors
     }
   };
 

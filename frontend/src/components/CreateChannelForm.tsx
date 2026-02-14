@@ -62,7 +62,6 @@ export default function CreateChannelForm({
       const data = await response.json();
 
       onSuccess?.();
-      console.log(data);
     } catch (err: any) {
       setError(err?.message || "Failed to create channel. Please try again.");
     } finally {

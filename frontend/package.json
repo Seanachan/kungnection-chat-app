@@ -1,7 +1,8 @@
 {
-  "name": "discord-like-chat-app",
+  "name": "kungnection-chat-app",
+  "description": "A real-time chat application with code sharing and execution capabilities",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

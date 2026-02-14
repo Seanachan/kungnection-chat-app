@@ -35,7 +35,6 @@ export default function AddFriendForm({
         setIsLoading(false);
         return;
       }
-      console.log(friendID);
       const response = await fetch(
         `${BASE_URL}/user/friends/add?username=${friendID}`,
         {
@@ -52,7 +51,6 @@ export default function AddFriendForm({
         setIsLoading(false);
         return;
       }
-      console.log(text);
       onCancel();
       // handleAddFriend(text, type);
       onSuccess();

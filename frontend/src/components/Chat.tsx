@@ -44,7 +44,6 @@ const Chat = ({
       );
 
       if (!response.ok) {
-        console.error("Failed to send message: ", await response.text());
         return;
       }
       const data = await response.json();
@@ -70,7 +69,7 @@ const Chat = ({
       }));
       setNewMessage("");
     } catch (err) {
-      console.error("Error sending message: ", err);
+      // Handle send message error silently
     }
   };
 
@@ -99,7 +98,6 @@ const Chat = ({
         );
 
         if (!response.ok) {
-          console.error("Failed to fetch messages:", await response.text());
           return;
         }
 
@@ -118,7 +116,7 @@ const Chat = ({
           })),
         }));
       } catch (err) {
-        console.error("Error fetching messages:", err);
+        // Handle fetch messages error silently
       }
     };
 
@@ -155,9 +153,9 @@ const Chat = ({
                 /^```[\s\S]*\n[\s\S]*```$/.test(msg.content.trim()) ||
                 /^[^\n]*\n```[\s\S]*\n[\s\S]*```$/.test(msg.content.trim()),
             })),
-          }));
-        })
-        .catch((err) => console.error("Polling error:", err));
+          })),
+        }))
+        .catch(() => { /* Polling error handled silently */ });
     }, 3000);
 
     return () => clearInterval(interval);

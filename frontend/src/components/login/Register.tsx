@@ -93,7 +93,6 @@ export default function RegisterPage() {
     e.preventDefault();
 
     if (!validateForm()) {
-      console.log("Not validate form");
       return;
     }
 
@@ -119,9 +118,6 @@ export default function RegisterPage() {
       // Simulate successful login
       alert("Regsiter successful! Please log in again!");
 
-      // Optionally parse user data
-      const responseText = await response.text();
-      console.log("Registered user:", responseText);
       navigate("/login");
     } catch (error) {
       setErrors({ submit: "Registration failed. Please try again." });

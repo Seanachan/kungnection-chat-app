@@ -18,9 +18,7 @@ export default function JoinChannelForm({
   const [channelCode, setChannelCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const handleJoinChannel = async (message: string, type: string) => {
-    console.log(`Joined ${type} channel:`, message);
-    // Optional: show a toast, update parent state, etc.
+  const handleJoinChannel = async (_message: string, _type: string) => {
     onCancel(); // Close modal after successful join
   };
   const handleSubmit = async (e: React.FormEvent) => {
@@ -58,7 +56,6 @@ export default function JoinChannelForm({
         setIsLoading(false);
         return;
       }
-      console.log(text);
       handleJoinChannel(text, type);
       onSuccess?.();
     } catch (err) {
