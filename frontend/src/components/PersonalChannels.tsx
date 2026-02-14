@@ -16,7 +16,7 @@ interface personalChannelProps {
   onChannelUpdate: () => void;
 }
 
-const personalChannel: React.FC<personalChannelProps> = ({
+const PersonalChannel: React.FC<personalChannelProps> = ({
   activeChannel,
   setActiveChannel,
   friends,
@@ -85,6 +85,5 @@ const personalChannel: React.FC<personalChannelProps> = ({
   );
 };
 
-export default personalChannel;
-//Registered user: {"id":3,"username":"hsin","email":"kungfu@example.com","password":"2Jdiggxl","nickname":"hsin","channelMemberships":null,"friends":null}
+export default PersonalChannel;
 

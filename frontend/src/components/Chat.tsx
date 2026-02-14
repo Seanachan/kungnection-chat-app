@@ -153,8 +153,8 @@ const Chat = ({
                 /^```[\s\S]*\n[\s\S]*```$/.test(msg.content.trim()) ||
                 /^[^\n]*\n```[\s\S]*\n[\s\S]*```$/.test(msg.content.trim()),
             })),
-          })),
-        }))
+          }));
+        })
         .catch(() => { /* Polling error handled silently */ });
     }, 3000);
 
