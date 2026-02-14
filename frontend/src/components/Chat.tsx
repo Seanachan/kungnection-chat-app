@@ -13,14 +13,66 @@ const Chat = ({
 }: {
   activeChannel: { code: string; name: string; type: string } | null;
 }) => {
-  if (!activeChannel || !activeChannel.code) {
-    return null;
-  }
   const [messagesByChannel, setMessagesByChannel] = useState<
     Record<string, Message[]>
   >({});
   const [newMessage, setNewMessage] = useState("");
-  const messages = messagesByChannel[activeChannel.code] || [];
+
+  // Get messages for current channel (safe even if activeChannel is null)
+  const messages = activeChannel ? (messagesByChannel[activeChannel.code] || []) : [];
+
+  // Effect: poll backend for new messages every 3 seconds
+  useEffect(() => {
+    if (!activeChannel?.code) return;
+
+    const fetchMessages = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
+        const response = await fetch(
+          activeChannel.type === "personal"
+            ? `${BASE_URL}/messages/friend/${activeChannel.code}`
+            : `${BASE_URL}/messages/channel/${activeChannel.code}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+        setMessagesByChannel((prev) => ({
+          ...prev,
+          [activeChannel.code]: data.map((msg: { id: number; senderName: string; content: string; timestamp: string }) => ({
+            id: msg.id,
+            user: msg.senderName,
+            content: msg.content,
+            timestamp: msg.timestamp,
+            avatar: "https://placehold.co/400",
+            isCode:
+              /^```[\s\S]*\n[\s\S]*```$/.test(msg.content.trim()) ||
+              /^[^\n]*\n```[\s\S]*\n[\s\S]*```$/.test(msg.content.trim()),
+          })),
+        }));
+      } catch {
+        // Handle fetch messages error silently
+      }
+    };
+
+    fetchMessages();
+    const interval = setInterval(fetchMessages, 3000);
+    return () => clearInterval(interval);
+  }, [activeChannel]);
+
+  // Early return after hooks
+  if (!activeChannel || !activeChannel.code) {
+    return null;
+  }
+
   const handleSendMessage = async (e: FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
@@ -43,12 +95,10 @@ const Chat = ({
         },
       );
 
-      if (!response.ok) {
-        return;
-      }
+      if (!response.ok) return;
+
       const data = await response.json();
 
-      // Check if message contains code blocks with line breaks
       const isCode =
         /^```[\s\S]*\n[\s\S]*```$/.test(newMessage.trim()) ||
         /^[^\n]*\n```[\s\S]*\n[\s\S]*```$/.test(newMessage.trim());
@@ -68,7 +118,7 @@ const Chat = ({
         ],
       }));
       setNewMessage("");
-    } catch (err) {
+    } catch {
       // Handle send message error silently
     }
   };
@@ -77,89 +127,6 @@ const Chat = ({
     const parts = content.split(/(```\w*\n[\s\S]+?\n```)/g);
     return parts.filter((part) => part.length > 0);
   };
-
-  // Effect: poll backend for new messages every 3 seconds
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) throw new Error("Not authenticated");
-
-        const response = await fetch(
-          activeChannel.type == "personal"
-            ? `${BASE_URL}/messages/friend/${activeChannel.code}`
-            : `${BASE_URL}/messages/channel/${activeChannel.code}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-
-        if (!response.ok) {
-          return;
-        }
-
-        const data = await response.json();
-        setMessagesByChannel((prev) => ({
-          ...prev,
-          [activeChannel.code]: data.map((msg: any) => ({
-            id: msg.id,
-            user: msg.senderName,
-            content: msg.content,
-            timestamp: msg.timestamp,
-            avatar: "https://placehold.co/400",
-            isCode:
-              /^```[\s\S]*\n[\s\S]*```$/.test(msg.content.trim()) ||
-              /^[^\n]*\n```[\s\S]*\n[\s\S]*```$/.test(msg.content.trim()),
-          })),
-        }));
-      } catch (err) {
-        // Handle fetch messages error silently
-      }
-    };
-
-    fetchMessages();
-    const interval = setInterval(fetchMessages, 3000);
-    return () => clearInterval(interval);
-  }, [activeChannel]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const token = localStorage.getItem("token");
-      if (!token || !activeChannel.code) return;
-
-      fetch(
-        activeChannel.type == "personal"
-          ? `${BASE_URL}/messages/friend/${activeChannel.code}`
-          : `${BASE_URL}/messages/channel/${activeChannel.code}`,
-        {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setMessagesByChannel((prev) => ({
-            ...prev,
-            [activeChannel.code]: data.map((msg: any) => ({
-              id: msg.id,
-              user: msg.senderName,
-              content: msg.content,
-              timestamp: msg.timestamp,
-              avatar: "https://placehold.co/400",
-              isCode:
-                /^```[\s\S]*\n[\s\S]*```$/.test(msg.content.trim()) ||
-                /^[^\n]*\n```[\s\S]*\n[\s\S]*```$/.test(msg.content.trim()),
-            })),
-          }));
-        })
-        .catch(() => { /* Polling error handled silently */ });
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [activeChannel.code]); // only care about the channel ID for polling
 
   return (
     <div className={styles.container}>
