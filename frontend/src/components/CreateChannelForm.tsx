@@ -59,7 +59,7 @@ export default function CreateChannelForm({
         throw new Error(message || "Failed to create channel.");
       }
 
-      const data = await response.json();
+      await response.json();
 
       onSuccess?.();
     } catch (err: any) {

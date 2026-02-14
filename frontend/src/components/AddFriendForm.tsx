@@ -45,7 +45,7 @@ export default function AddFriendForm({
         },
       );
 
-      const text = await response.text();
+      await response.text();
       if (!response.ok) {
         setError("Invalid Friend ID");
         setIsLoading(false);

@@ -48,7 +48,7 @@ export default function Settings({ activeChannel, channels }: SettingsProps) {
     }
   };
   const [, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   const [settings, setSettings] = useState({
